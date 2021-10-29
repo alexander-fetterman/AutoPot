@@ -43,7 +43,7 @@
  *    127 characters ( plus null terminator )
  *
  */
-char* build_msg( char* input_msg ) {
+char* build_msg_deprecated( char* input_msg ) {
 	/* Declare a string to hold the resulting message */
 	char* msg = (char*) calloc( 128, sizeof( char ) );
 
@@ -84,35 +84,7 @@ int main() {
         /* Declare a string to hold the resulting message */
         char* msg = (char*) calloc( 128, sizeof( char ) );
 
-        /* Add open bracket ( start of JSON ) */
-        msg[0] = '{';
-
-        /* Add timestamp key & semi-colon */
-        strcat( msg, "ts:" );
-
-        /* Retrieve the timestamp value using time.h */
-        int timestamp_int = (int) time( NULL );
-        char* timestamp = calloc( 64, sizeof( char ) );
-        sprintf( timestamp, "%d", timestamp_int );
-
-        /* Add the timestamp key */
-        strcat( msg, timestamp );
-
-        /* Add comma ( not the first key-value pair ), 
-            message key, & semi-colon */
-        strcat( msg, ",msg:\"" );
-
-        /* Append input message as the final value ( no comma ) */
-        strcat( msg, input_msg );
-        msg[ strlen(msg) ] = '"';
-
-        /* Append close bracket ( end of JSON ) */
-        msg[ strlen( msg ) ] = '}';
-
-        /* Return the built message */
-        return msg;
-	
-	/* Set up variables for message & delivery token */
+	/* Set up message and token */
 	MQTTClient_message pubmsg = MQTTClient_message_initializer;
 	MQTTClient_deliveryToken token;
 	int rc;
@@ -136,11 +108,15 @@ int main() {
 	pubmsg.qos = QOS;
 	pubmsg.retained = 0;
 
+	/* Create a system state structure */
+	Data* state = calloc( 1, sizeof( Data ) ); 
+	state->moisture_level = 2;
+
 	/* Attempt to publish the message */
 	while( 1 ) {
 		/* Build the JSON message */
 		printf( "Building message...\t" );
-		char* payload = build_msg( PAYLOAD );
+		char* payload = build_msg( state );
 		pubmsg.payload = payload;
 		pubmsg.payloadlen = strlen( payload );
 
