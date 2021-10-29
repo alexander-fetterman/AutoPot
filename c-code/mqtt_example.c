@@ -2,13 +2,20 @@
 // INCLUDES
 ////////////////////////////////////////////////////////////////////////////////
 
+/* -----  C Standard Includes ----- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
 
+/* ----- MQTT Includes ----- */
 #include "MQTTClient.h"
+
+/* ----- GPIO Includes ----- */
+
+/* ----- User Defined Includes ----- */
+#include "data.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // DEFINES ( CONSTANTS )
@@ -74,6 +81,36 @@ int main() {
 	/* Set up variables for connection */
 	MQTTClient client;
 	MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+        /* Declare a string to hold the resulting message */
+        char* msg = (char*) calloc( 128, sizeof( char ) );
+
+        /* Add open bracket ( start of JSON ) */
+        msg[0] = '{';
+
+        /* Add timestamp key & semi-colon */
+        strcat( msg, "ts:" );
+
+        /* Retrieve the timestamp value using time.h */
+        int timestamp_int = (int) time( NULL );
+        char* timestamp = calloc( 64, sizeof( char ) );
+        sprintf( timestamp, "%d", timestamp_int );
+
+        /* Add the timestamp key */
+        strcat( msg, timestamp );
+
+        /* Add comma ( not the first key-value pair ), 
+            message key, & semi-colon */
+        strcat( msg, ",msg:\"" );
+
+        /* Append input message as the final value ( no comma ) */
+        strcat( msg, input_msg );
+        msg[ strlen(msg) ] = '"';
+
+        /* Append close bracket ( end of JSON ) */
+        msg[ strlen( msg ) ] = '}';
+
+        /* Return the built message */
+        return msg;
 	
 	/* Set up variables for message & delivery token */
 	MQTTClient_message pubmsg = MQTTClient_message_initializer;
