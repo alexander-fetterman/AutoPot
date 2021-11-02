@@ -114,6 +114,8 @@ int main() {
 
 	/* Attempt to publish the message */
 	while( 1 ) {
+		/* Get all of the sensor info */
+		
 		/* Build the JSON message */
 		printf( "Building message...\t" );
 		char* payload = build_msg( state );
