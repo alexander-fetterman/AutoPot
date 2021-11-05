@@ -6,7 +6,7 @@ mosquitto &
 echo "Mosquitto now running in the background"
 
 # Compile source code
-gcc ~/c-code/mqtt_example.c -o ~/executables/autoCompile.out -l paho-mqtt3c
+gcc ~/AutoPot/c-code/*.c -o ~/executables/autoCompile.out -l paho-mqtt3c
 
 # Run source code
 ~/executables/autoCompile.out
