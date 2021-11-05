@@ -2,20 +2,22 @@
 // INCLUDES
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "include.h"
+
 /* -----  C Standard Includes ----- */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <string.h>
+// #include <unistd.h>
+// #include <time.h>
 
 /* ----- MQTT Includes ----- */
-#include "MQTTClient.h"
+// #include "MQTTClient.h"
 
 /* ----- GPIO Includes ----- */
 
 /* ----- User Defined Includes ----- */
-#include "data.h"
+// #include "data.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // DEFINES ( CONSTANTS )

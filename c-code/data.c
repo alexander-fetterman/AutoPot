@@ -1,6 +1,6 @@
 /* data.c */
 
-#include "data.h"
+#include "include.h"
 
 /**
  * Constructs a timestamp string from the system time
@@ -17,6 +17,16 @@ char* get_timestamp() {
 
 	/* Return the result */
 	return timestamp;
+}
+
+char* get_moisture_level( Data* data ) {	
+	/* Allocate space to hold the result */
+	char* res = calloc( 64, sizeof( char ) );
+        
+	/* Write the timestamp into the allocated string */
+	sprintf( res, "%d", data->moisture_level );
+
+	return res;
 }
 
 
@@ -50,7 +60,7 @@ char* build_msg( Data* data ) {
         /* Append moisture level, then free it */
 	char* moisture_level = get_moisture_level( data );
         strcat( msg, moisture_level );
-	free*( moisture_level );
+	free( moisture_level );
 
         /* Append close bracket ( end of JSON ) */
         msg[ strlen( msg ) ] = '}';
