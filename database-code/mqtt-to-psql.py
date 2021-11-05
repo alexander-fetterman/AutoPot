@@ -2,25 +2,26 @@ import paho.mqtt.client as mqtt
 import time
 import psycopg2 as psql
 from configparser import ConfigParser
+import database.py
 
-###################################
-# CONSTANTS
-###################################
+######################################################################
+## CONSTANTS
+######################################################################
 clientName = "mqtt-to-psql"
 brokerLocation = "localhost"
 topic = "/Demo"
 conn = None
 
-###################################
-# CALLBACKS
-###################################
+######################################################################
+## CALLBACKS
+######################################################################
 
 def on_message( client, userdata, message ):
-    print("message received " ,str(message.payload.decode("utf-8")))
+    print("message received ", str(message.payload.decode("utf-8")))
 
-###################################
-# MAIN
-###################################
+######################################################################
+## MAIN
+######################################################################
 
 def config(filename='database.ini', section='postgresql'):
     # create a parser
