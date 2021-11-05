@@ -23,7 +23,7 @@
 // DEFINES ( CONSTANTS )
 ////////////////////////////////////////////////////////////////////////////////
 
-#define ADDRESS 	"tcp://localhost:1883"
+#define ADDRESS 	"tcp://192.168.1.135:1883"
 #define CLIENTID 	"UniqueClient123789456"
 #define TOPIC 		"/Demo"
 #define PAYLOAD 	"Hello from PI"
