@@ -17,6 +17,7 @@ class Database:
       necessary to connect to a database.
     '''
     def __parse_config():
+        raise Exception( 'Method not yet implemented' )
 
     ######################################################################
     ## PUBLIC METHODS
@@ -28,4 +29,4 @@ class Database:
          object
     '''
     def db_connect():
-
+        raise Exception( 'Method not yet implemented' )

@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import time
 import psycopg2 as psql
 from configparser import ConfigParser
-import database.py
+import database
 
 ######################################################################
 ## CONSTANTS
