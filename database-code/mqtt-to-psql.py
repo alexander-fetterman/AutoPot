@@ -24,45 +24,10 @@ def on_message( client, userdata, message ):
 ## MAIN
 ######################################################################
 
-def config(filename='database.ini', section='postgresql'):
-    # create a parser
-    parser = ConfigParser()
-    # read config file
-    parser.read(filename)
-
-    # get section, default to postgresql
-    db = {}
-    if parser.has_section(section):
-        params = parser.items(section)
-        for param in params:
-            db[param[0]] = param[1]
-    else:
-        raise Exception('Section {0} not found in the {1} file'.format(section, filename))
-
-    return db
-
 def main():
+    # Create a database object and connect to the database
     database = Database( FILENAME )
     database.db_connect()
-
-    # Read config file
-    params = config()
-
-    # Connect to local postgres instance
-    print( "Connecting to database..." )
-    conn = psql.connect( **params )
-
-    # create a cursor
-    cur = conn.cursor()
-
-    # execute a statement
-    print('PostgreSQL database version:')
-    cur.execute('select * from sensorData;')
-
-    # Get the result of the query
-    result = cur.fetchall()
-    print( "Result" )
-    print( result )
 
     # Create MQTT client and connect to the broker hosted locally
     print( "Creating client..." )
