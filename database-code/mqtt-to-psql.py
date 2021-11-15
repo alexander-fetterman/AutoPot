@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import time
 import psycopg2 as psql
 from configparser import ConfigParser
-import database
+from database import Database
 
 ######################################################################
 ## CONSTANTS
@@ -11,6 +11,7 @@ clientName = "mqtt-to-psql"
 brokerLocation = "localhost"
 topic = "/Demo"
 conn = None
+FILENAME = "database.ini"
 
 ######################################################################
 ## CALLBACKS
@@ -41,6 +42,9 @@ def config(filename='database.ini', section='postgresql'):
     return db
 
 def main():
+    database = Database( FILENAME )
+    database.db_connect()
+
     # Read config file
     params = config()
 
