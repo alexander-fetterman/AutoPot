@@ -53,7 +53,12 @@ def main():
 
     # execute a statement
     print('PostgreSQL database version:')
-    cur.execute('select * from autopot;')
+    cur.execute('select * from sensorData;')
+
+    # Get the result of the query
+    result = cur.fetchall()
+    print( "Result" )
+    print( result )
 
     # Create MQTT client and connect to the broker hosted locally
     print( "Creating client..." )
