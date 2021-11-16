@@ -57,6 +57,12 @@ class Database:
 
         return db
     
+    '''
+    Builds the string representation of the query to insert 
+    '''
+    def build_insert_query():
+        raise Exception( 'Method not yet implemented' )
+
     ######################################################################
     ## PUBLIC METHODS
     ######################################################################
@@ -67,4 +73,24 @@ class Database:
      object. This is required before calling any DB operations.
     '''
     def db_connect( self ):
+        # Connect to the database using the config file
         self.connection = psql.connect( **self.__parse_config() )
+
+        # Open a cursor to the database
+        self.cursor = self.connection.cursor()
+
+    '''
+    Inserts a tuple into the database
+    '''
+    def insert_values( self, timestamp, moisture_level ):
+        # Perform the insert operation
+        self.cursor.execute( "INSERT INTO sensordata VALUES( {ts}, {ms} )".format( ts = timestamp, ms = moisture_level ) )
+        
+        # Commit the insert operation
+        self.connection.commit()
+
+
+
+
+
+
