@@ -31,6 +31,7 @@ class MqttDriver:
      OR SUBSCRIBING!
     @param clientName --- The (unique) client name to be assigned to the
      member client.
+    @param database --- A (user defined) database object, supplied externally
     '''
     def __init__( self, clientName, database ):
         # Create an MQTT client

@@ -89,6 +89,20 @@ class Database:
         # Commit the insert operation
         self.connection.commit()
 
+    '''
+    Get the most recent tuples from the database.
+    @param limit --- The maximum number of tuples to return.
+    '''
+    def get_values( self, limit ):
+        # Execute a query - this does not return any data yet
+        self.cursor.execute( "SELECT * FROM sensordata LIMIT {lm};".format( lm=limit ) )
+
+        # Fetch all of the data requested. This may be a time intensive 
+        #  operation over external network.
+        tuples = self.cursor.fetchall()
+        return tuples
+
+
 
 
 
