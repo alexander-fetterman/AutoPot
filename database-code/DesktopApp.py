@@ -1,68 +1,41 @@
-import paho.mqtt.client as mqtt
-import time
-import psycopg2 as psql
-from configparser import ConfigParser
-from database import Database
-from MqttDriver import MqttDriver
-import matplotlib.pyplot as plt
+# DesktopApp.py
 
-######################################################################
-## CONSTANTS
-######################################################################
+import tkinter as tk
+from tkinter import ttk
+import Gui as gui
+import DatabaseGraphing
 
-CLIENT_NAME = "pythonScript"
-LOCAL_BROKER = "localhost"
-DEMO_TOPIC = "/Demo"
-FILENAME = "database.ini"
+class Application(ttk.Notebook):
+    def __init__(self, controller, master=None):
+        # Call the super constructor
+        super().__init__(master)
 
-######################################################################
-## PLOTTING FUNCTIONS
-######################################################################
+        # Save the controller as a member variable
+        self.controller = controller
 
-'''
-Takes as input a list of tuples as specified by the database,
- and returns a tuple (x, y)
-@param tuples --- The list of tuples from the database
+        # Create the GUI
+        self.master = master
+        self.pack()
+        self.create_widgets()
 
-'''
-def parse_tuples( tuples ):
-    # Declare the x and y values as empty lists
-    x = []
-    y = []
+    def quit(self):
+        self.master.destroy()
 
-    # Iterate over the tuples
-    for row in tuples:
-        # Take the first value (timestamp) and add 
-        #  to the x values
-        x.append( row[0] )
-        # Take the second value (moisture) and add
-        #  to the y values
-        y.append( row[1] )
+    def create_widgets(self):
+        value = gui.SingleTab( self.controller, self )
+        self.add( value, text="Value")
 
-    return x, y
-
-######################################################################
-## MAIN
-######################################################################
-
-def main():
-    # Create a database object and connect to the database
-    database = Database( FILENAME )
-    database.db_connect()
+    def control():
+        print("Hello")
 
 
-    # Get the values in the database
-    tuples = database.get_values( 20 )
+if __name__ == "__main__":
+    # Create a graphing controller
+    graphController = DatabaseGraphing.Graphing()
 
-    # Parse the tuples into x (timestamp) 
-    #  and y (moisture) values
-    x, y =  parse_tuples( tuples )
+    # Create a new Application Object
+    mainWindow = tk.Tk()
+    application = Application( graphController, mainWindow )
 
-    # Graph the values (x, y)
-    plt.figure()
-    plt.plot( x, y )
-    plt.show()
-
-
-
-main()
+    # Run the application logic
+    tk.mainloop()
