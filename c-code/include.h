@@ -16,6 +16,6 @@
 
 /* ----- User Defined Includes ----- */
 #include "data.h"
-
+#include "i2c.h"
 
 #endif

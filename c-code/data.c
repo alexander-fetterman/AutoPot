@@ -24,7 +24,7 @@ char* get_moisture_level( Data* data ) {
 	char* res = calloc( 64, sizeof( char ) );
         
 	/* Write the timestamp into the allocated string */
-	sprintf( res, "%d", data->moisture_level );
+	sprintf( res, "%f", data->moisture_level );
 
 	return res;
 }

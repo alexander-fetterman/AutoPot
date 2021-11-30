@@ -110,6 +110,9 @@ int main() {
 	pubmsg.qos = QOS;
 	pubmsg.retained = 0;
 
+	/* Set up i2c communication */
+	i2c_init();
+
 	/* Create a system state structure */
 	Data* state = calloc( 1, sizeof( Data ) ); 
 	state->moisture_level = 2;
@@ -117,20 +120,25 @@ int main() {
 	/* Attempt to publish the message */
 	while( 1 ) {
 		/* Get all of the sensor info */
-		
+		state->moisture_level = adc_read();
+		printf( "Moisture level: %f\n", state->moisture_level );
+			
 		/* Build the JSON message */
-		printf( "Building message...\t" );
+		printf( "Building message...\n" );
 		char* payload = build_msg( state );
 		pubmsg.payload = payload;
 		pubmsg.payloadlen = strlen( payload );
+
+		/* Output message to stdout */
+		printf( "Message: %s\n", payload );
 
 		/* Publish the message & clean up memory from previous message payload */
 		printf( "Publishing message to topic %s...\n", TOPIC );
 		MQTTClient_publishMessage( client, TOPIC, &pubmsg, &token );
 		free( payload );
 
-		/* Sleep for 1 second */
-		sleep( 1 );
+		/* Sleep for 200 milli seconds */
+		sleep( 0.2 );
 	}
 
 	printf( "Hello World\n" );
