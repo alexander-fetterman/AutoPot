@@ -69,6 +69,21 @@ class Graphing:
         plt.plot( x, y )
         plt.show()
 
+        # while( 1 ):
+            
+            # Get the values in the database
+            # tuples = self.database.get_values( maxTuples )
+
+            # Parse the tuples into x (timestamp) 
+            #  and y (moisture) values
+            # x, y = self.__parse_tuples( tuples )
+
+            # Graph the values (x, y)
+            # plt.plot( x, y )
+            # plt.draw()        
+            # plt.pause( 0.1 )
+            # plt.clf()
+
     ######################################################################
     ## PUBLIC MEMBER FUNCTIONS
     ######################################################################

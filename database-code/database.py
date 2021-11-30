@@ -13,7 +13,7 @@ class Database:
     ## CONSTANTS
     ######################################################################
     DATABASE_TYPE = 'postgresql'
-
+    TABLE_NAME = 'sensordata'
     ######################################################################
     ## MEMBER VARIABLES
     ######################################################################
@@ -84,7 +84,7 @@ class Database:
     '''
     def insert_values( self, timestamp, moisture_level ):
         # Perform the insert operation
-        self.cursor.execute( "INSERT INTO sensordata VALUES( {ts}, {ms} )".format( ts = timestamp, ms = moisture_level ) )
+        self.cursor.execute( "INSERT INTO {table} VALUES( {ts}, {ms} )".format( table = self.TABLE_NAME, ts = timestamp, ms = moisture_level ) )
         
         # Commit the insert operation
         self.connection.commit()
@@ -95,7 +95,7 @@ class Database:
     '''
     def get_values( self, limit ):
         # Execute a query - this does not return any data yet
-        self.cursor.execute( "SELECT * FROM sensordata LIMIT {lm};".format( lm=limit ) )
+        self.cursor.execute( "SELECT * FROM sensordata order by ts desc LIMIT {lm};".format( table = self.TABLE_NAME, lm=limit ) )
 
         # Fetch all of the data requested. This may be a time intensive 
         #  operation over external network.
