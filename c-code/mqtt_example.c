@@ -113,9 +113,11 @@ int main() {
 	pubmsg.retained = 0;
 
 	/* Set up i2c communication */
+	printf( "Setting up i2c communication\n" );
 	i2c_init();
 
 	/* Set up GPIO */
+	printf( "Setting up GPIO\n" );
 	wiringPiSetup();
 	pinMode( PUMP, OUTPUT );
 
