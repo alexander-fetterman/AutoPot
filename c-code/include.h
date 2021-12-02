@@ -13,6 +13,7 @@
 #include "MQTTClient.h"
 
 /* ----- GPIO Includes ----- */
+#include <wiringPi.h>
 
 /* ----- User Defined Includes ----- */
 #include "data.h"
