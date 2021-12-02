@@ -23,12 +23,14 @@
 // DEFINES ( CONSTANTS )
 ////////////////////////////////////////////////////////////////////////////////
 
-#define ADDRESS 	"tcp://192.168.1.135:1883"
+#define ADDRESS 	"tcp://test.mosquitto.org:1883"
 #define CLIENTID 	"UniqueClient123789456"
-#define TOPIC 		"/Demo"
+#define TOPIC 		"/AutoPot_IED_RPI"
 #define PAYLOAD 	"Hello from PI"
 #define QOS 		1
 #define TIMEOUT 	10000L
+#define PUMP		0
+#define TURN_ON_MOISTURE	1.5
 
 /**
  *  Builds a JSON message in the following format:
@@ -113,6 +115,10 @@ int main() {
 	/* Set up i2c communication */
 	i2c_init();
 
+	/* Set up GPIO */
+	wiringPiSetup();
+	pinMode( PUMP, OUTPUT );
+
 	/* Create a system state structure */
 	Data* state = calloc( 1, sizeof( Data ) ); 
 	state->moisture_level = 2;
@@ -122,7 +128,15 @@ int main() {
 		/* Get all of the sensor info */
 		state->moisture_level = adc_read();
 		printf( "Moisture level: %f\n", state->moisture_level );
-			
+		
+		/* If the moisture level is above the threshold,
+		    turn on the pump */
+		if( state->moisture_level < TURN_ON_MOISTURE ) {
+			digitalWrite( PUMP, HIGH );
+		} else {
+			digitalWrite( PUMP, LOW );
+		}
+
 		/* Build the JSON message */
 		printf( "Building message...\n" );
 		char* payload = build_msg( state );
@@ -137,8 +151,8 @@ int main() {
 		MQTTClient_publishMessage( client, TOPIC, &pubmsg, &token );
 		free( payload );
 
-		/* Sleep for 200 milli seconds */
-		sleep( 0.2 );
+		/* Sleep for 100 milli seconds */
+		sleep( 0.1 );
 	}
 
 	printf( "Hello World\n" );
