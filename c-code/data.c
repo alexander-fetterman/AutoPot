@@ -1,6 +1,7 @@
 /* data.c */
 
 #include "include.h"
+#include <inttypes.h>
 
 /**
  * Constructs a timestamp string from the system time
@@ -8,10 +9,27 @@
 char* get_timestamp() {
         /* Retrieve the timestamp value using time.h */
         int timestamp_int = (int) time( NULL );
-        
+       
+	long ms;
+	time_t s;
+	struct timespec spec;
+
+	clock_gettime( CLOCK_REALTIME, &spec );
+
+	s = spec.tv_sec;
+	ms = spec.tv_nsec / 1.0e6;
+
+	if( ms > 999 ) {
+		s++;
+		ms = 0;
+	}
+
 	/* Allocate space to hold the result */
 	char* timestamp = calloc( 64, sizeof( char ) );
         
+	sprintf( timestamp, "%"PRIdMAX"%03ld", (intmax_t)s, ms );
+	return timestamp;
+
 	/* Write the timestamp into the allocated string */
 	sprintf( timestamp, "%d", timestamp_int );
 
